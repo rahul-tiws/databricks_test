@@ -114,7 +114,7 @@ jobs:
     # Deploy Databricks Workspace
     - name: Deploy ARM Template (Databricks)
       uses: azure/CLI@v1
-      # allow-no-subscriptions: true
+      allow-no-subscriptions: true
 
       # if: ${{ github.event.inputs.MODE == 'SKIP FOR TESTING' }}
       with:
