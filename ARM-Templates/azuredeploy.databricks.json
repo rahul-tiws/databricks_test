@@ -1,36 +1,68 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "workspaceName": {
-        "type": "string",
-        "metadata": {
-          "description": "The name of the Azure Databricks workspace to create."
-        }
-      },
-      "pricingTier": {
-        "type": "string",
-        "metadata": {
-          "description": "The pricing tier of workspace."
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "workspaces_ML_Test_name": {
+          "defaultValue": "ML_Test",
+          "type": "String"
       }
-    },
-    "variables": {
-      "managedResourceGroupId": "[concat(subscription().id, '/resourceGroups/', variables('managedResourceGroupName'))]",
-      "managedResourceGroupName": "[concat('databricks-rg-', parameters('workspaceName'), '-', uniqueString(parameters('workspaceName'), resourceGroup().id))]"
-    },  "resources": [
+  },
+  "variables": {},
+  "resources": [
       {
-        "apiVersion": "2018-04-01",
-        "type": "Microsoft.Databricks/workspaces",
-        "location": "[resourceGroup().location]",
-        "name": "[parameters('workspaceName')]",
-        "sku": {
-          "name": "[parameters('pricingTier')]"
-        },
-        "comments": "The managed resource group specified will be locked after deployment.",
-        "properties": {
-          "ManagedResourceGroupId": "[variables('managedResourceGroupId')]"
-        }
+          "type": "Microsoft.Databricks/workspaces",
+          "apiVersion": "2023-02-01",
+          "name": "[parameters('workspaces_ML_Test_name')]",
+          "location": "southindia",
+          "sku": {
+              "name": "standard"
+          },
+          "properties": {
+              "managedResourceGroupId": "[concat('/subscriptions/6dc2c5aa-5450-436e-a201-164b0ae96fa5/resourceGroups/databricks-rg-', parameters('workspaces_ML_Test_name'), '-zoolrkpm7tkww')]",
+              "parameters": {
+                  "enableNoPublicIp": {
+                      "type": "Bool",
+                      "value": false
+                  },
+                  "natGatewayName": {
+                      "type": "String",
+                      "value": "nat-gateway"
+                  },
+                  "prepareEncryption": {
+                      "type": "Bool",
+                      "value": false
+                  },
+                  "publicIpName": {
+                      "type": "String",
+                      "value": "nat-gw-public-ip"
+                  },
+                  "requireInfrastructureEncryption": {
+                      "type": "Bool",
+                      "value": false
+                  },
+                  "storageAccountName": {
+                      "type": "String",
+                      "value": "dbstoragem5i6a3nzrczbu"
+                  },
+                  "storageAccountSkuName": {
+                      "type": "String",
+                      "value": "Standard_GRS"
+                  },
+                  "vnetAddressPrefix": {
+                      "type": "String",
+                      "value": "10.139"
+                  }
+              },
+              "authorizations": [
+                  {
+                      "principalId": "9a74af6f-d153-4348-988a-e2672920bee9",
+                      "roleDefinitionId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+                  }
+              ],
+              "createdBy": {},
+              "updatedBy": {},
+              "createdDateTime": "2023-03-01T11:12:01.9992446Z"
+          }
       }
-    ]
-  }
+  ]
+}
