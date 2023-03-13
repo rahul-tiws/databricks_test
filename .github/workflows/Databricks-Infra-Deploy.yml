@@ -33,7 +33,7 @@ on:
       SUBSCRIPTION_ID:
         description: 'Azure Subscription Id'
         required: true
-        default: '00000000-0000-0000-0000-000000000000'
+        default: '6dc2c5aa-5450-436e-a201-164b0ae96fa5'
 
       # Inialize the system
       # Note: We only want to run the KeyVault ARM template once.  If you keep re-running, then you will OVERWRITE your values
@@ -103,7 +103,7 @@ jobs:
         
     # Login to Azure
     - name: Login via Az module
-      uses: azure/login@v1.1
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         # set this if you will be using PowerShell
