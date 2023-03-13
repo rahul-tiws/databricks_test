@@ -113,6 +113,7 @@ jobs:
     # Deploy Databricks Workspace
     - name: Deploy ARM Template (Databricks)
       uses: azure/CLI@v1
+      allow-no-subscriptions: true
       # if: ${{ github.event.inputs.MODE == 'SKIP FOR TESTING' }}
       with:
         inlineScript: |
@@ -121,6 +122,7 @@ jobs:
     # Deploy Azure KeyVault
     - name: Deploy ARM Template (KeyVault)
       uses: azure/CLI@v1
+      allow-no-subscriptions: true
       if: ${{ github.event.inputs.MODE == 'Initialize-KeyVault' }}
       with:
         inlineScript: |
@@ -128,7 +130,8 @@ jobs:
           az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.keyvault.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.keyvault.json --parameters keyVaultName="${{ env.keyVaultName }}"
     # Download KeyVault Secrets
     - name: Download KeyVault Secrets
-      uses: Azure/get-keyvault-secrets@v1.0
+      uses: Azure/get-keyvault-secrets@v1
+      allow-no-subscriptions: true
       if: ${{ github.event.inputs.MODE == 'Databricks' }}
       with:
         keyvault: ${{ env.keyVaultName }}
