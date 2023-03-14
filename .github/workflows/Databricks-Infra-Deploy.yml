@@ -99,23 +99,13 @@ jobs:
       with:
         name: 'ARM-Templates'
         path: ${{ github.workspace }}/ARM-Templates
-
-    # Install AZure CLI
-    - name: Install Azure cli
-      run: |
-        sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
-        curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
-        AZ_REPO=$(lsb_release -cs)
-        echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-        sudo apt-get update
-        sudo apt-get install azure-cli
-        
+ 
     # Login to Azure
     - name: Login via Az module
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        allow-no-subscriptions: true
+        # allow-no-subscriptions: true
 
         # set this if you will be using PowerShell
         # enable-AzPSSession: true 
