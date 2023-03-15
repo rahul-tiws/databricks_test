@@ -3,13 +3,25 @@ dbutils.widgets.dropdown("Model Stage", "None", ["Production", "Staging","None"]
 
 # COMMAND ----------
 
+# MAGIC %pip install mlflow
+
+# COMMAND ----------
+
+#check the chnages
+
+# COMMAND ----------
+
 import mlflow
+from mlflow.tracking.client import MlflowClient
+import pandas as pd
+import matplotlib.dates as mdates
+from matplotlib import pyplot as plt
 
 registry_uri = f'databricks://modelregistery:modelregistery'
 mlflow.set_registry_uri(registry_uri)
 
 model_name = "power-forecasting-model"
-run_id='c9830cb0281842eb85cbb0dd9c14d896'
+run_id='a219ee486d1e493996a0d339951e4a04'
 # The default path where the MLflow autologging function stores the model
 artifact_path = "model"
 model_uri = "runs:/{run_id}/{artifact_path}".format(run_id=run_id, artifact_path=artifact_path)
@@ -18,9 +30,7 @@ model_production_uri = "models:/{model_name}/{model_stage}".format(model_name=mo
 
 
 def plot(model_name, model_stage, model_version, power_predictions, past_power_output):
-  import pandas as pd
-  import matplotlib.dates as mdates
-  from matplotlib import pyplot as plt
+
   index = power_predictions.index
   fig = plt.figure(figsize=(11, 7))
   ax = fig.add_subplot(111)
@@ -37,7 +47,6 @@ def plot(model_name, model_stage, model_version, power_predictions, past_power_o
   display(plt.show())
   
 def forecast_power(model_name, model_stage):
-  from mlflow.tracking.client import MlflowClient
   client = MlflowClient()
   model_version = client.get_latest_versions(model_name, stages=[model_stage])[0].version
   model_uri = "models:/{model_name}/{model_stage}".format(model_name=model_name, model_stage=model_stage)
@@ -50,9 +59,13 @@ def forecast_power(model_name, model_stage):
 
 # COMMAND ----------
 
+# MAGIC %pip install tensorflow
+
+# COMMAND ----------
+
 import pandas as pd
 
-wind_farm_data = pd.read_csv("https://github.com/dbczumar/model-registry-demo-notebook/raw/master/dataset/windfarm_data.csv", index_col=0)
+wind_farm_data = pd.read_csv("https://github.com/dbczumar/model-registry-demo-notebook/raw/master/dataset/windfarm_data.csv",index_col=0)
 def get_weather_and_forecast():
   format_date = lambda pd_date : pd_date.date().strftime("%Y-%m-%d")
   today = pd.Timestamp('today').normalize()
@@ -68,6 +81,14 @@ def get_weather_and_forecast():
   return weather_and_forecast.drop(columns="power"), past_power_output["power"]
 
 forecast_power(model_name, dbutils.widgets.get("Model Stage"))
+
+# COMMAND ----------
+
+
+
+# COMMAND ----------
+
+
 
 # COMMAND ----------
 
