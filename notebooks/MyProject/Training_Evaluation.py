@@ -133,6 +133,11 @@ databricks secrets put --scope modelregistery --key modelregistery-token --strin
 databricks secrets put --scope modelregistery --key modelregistery-workspace-id --string-value 5986558393416605
 databricks secrets put --scope modelregistery --key modelregistery-host --string-value https://adb-5986558393416605.5.azuredatabricks.net/
 
+databricks secrets create-scope --scope modelregisteryQA
+databricks secrets put --scope modelregisteryQA --key modelregisteryQA-token --string-value dapi0069694f0dddb89a9b444aa8b68e1364-3
+databricks secrets put --scope modelregisteryQA --key modelregisteryQA-workspace-id --string-value 5986558393416605
+databricks secrets put --scope modelregisteryQA --key modelregisteryQA-host --string-value https://adb-5986558393416605.5.azuredatabricks.net/
+
 # COMMAND ----------
 
 # MAGIC %pip install mlflow
