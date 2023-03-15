@@ -88,7 +88,7 @@ forecast_power(model_name, dbutils.widgets.get("Model Stage"))
 
 # COMMAND ----------
 
-dbutils.widgets.get("Model Stage")
+
 
 # COMMAND ----------
 
