@@ -16,7 +16,7 @@ from mlflow.tracking.client import MlflowClient
 import pandas as pd
 import matplotlib.dates as mdates
 from matplotlib import pyplot as plt
-
+print('Done')
 registry_uri = f'databricks://modelregistery:modelregistery'
 mlflow.set_registry_uri(registry_uri)
 
